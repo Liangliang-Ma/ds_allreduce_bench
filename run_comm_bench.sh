@@ -22,10 +22,15 @@ export CCL_WORKER_COUNT=1
 #PSM3_DEVICES=self,nic
 
 export CCL_ZE_IPC_EXCHANGE=sockets
-export DS_ACCELERATOR=cpu
 
-export CCL_WORKER_AFFINITY=10,22,34,46,58,70,82,94
-deepspeed --bind_cores_to_rank --bind_core_list 0-9,12-21,24-33,36-45,48-57,60-69,72-81,84-93 ds_comm_bench.py
+export IPEX_ROOT=$CONDA_PREFIX/lib/python3.9/site-packages/intel_extension_for_pytorch
+export DS_ACCELERATOR=xpu
+
+# export CCL_WORKER_AFFINITY=10,22,34,46,58,70,82,94
+# deepspeed --bind_cores_to_rank --bind_core_list 0-9,12-21,24-33,36-45,48-57,60-69,72-81,84-93 ds_comm_bench.py
+
+export CCL_WORKER_AFFINITY=3,11,19,27,35,43,54,62,70,78,86,94
+deepspeed --bind_cores_to_rank --bind_core_list 1-2,9-10,17-18,25-26,33-34,41-42,52-53,60-61,68-69,76-77,84-85,92-93 ds_comm_bench.py
 
 #export CCL_WORKER_AFFINITY=10,58
 #deepspeed --num_accelerator 2 --bind_cores_to_rank --bind_core_list 0-9,12-21,24-33,36-45,48-57,60-69,72-81,84-93 ds_comm_bench.py
